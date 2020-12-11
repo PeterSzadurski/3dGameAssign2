@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class scr_bullet : MonoBehaviour
 {
+    private int _Damage = 1;
     private float _speed = 200;
     private float _removeTime = 1f;
     private TrailRenderer _tr;
@@ -31,7 +32,7 @@ public class scr_bullet : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-     //   Debug.Log("Trigger");
+        //   Debug.Log("Trigger");
         HitSomething(col.gameObject);
     }
 
@@ -41,18 +42,20 @@ public class scr_bullet : MonoBehaviour
         _tr.enabled = false;
         if (go.layer == 8)
         {
-
-
-            Vector3 point = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-            // Debug.Log("point: " + point);
-            GameObject marker = Instantiate(_Hitmarker, _HitmarkerCanvas.transform);
-            marker.transform.position = point;
-            marker.transform.parent = _HitmarkerCanvas.transform;
-
+            StartCoroutine(DestoryBullet());
+            scr_enemy_health eH = go.GetComponent<scr_enemy_health>();
+            int healthLeft = eH.Damage(_Damage);
+            if (healthLeft <= 0)
+            {
+                Vector3 point = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+                GameObject marker = Instantiate(_Hitmarker, _HitmarkerCanvas.transform);
+                marker.transform.position = point;
+                marker.transform.parent = _HitmarkerCanvas.transform;
+                Destroy(go);
+            }
 
 
             _removeTime = 0;
-            StartCoroutine(DestoryBullet());
         }
 
     }
@@ -60,7 +63,7 @@ public class scr_bullet : MonoBehaviour
     void OnCollisionEnter(Collision col)
 
     {
-       // Debug.Log("Not Trigger: " + col.gameObject.name);
+        // Debug.Log("Not Trigger: " + col.gameObject.name);
 
         HitSomething(col.gameObject);
     }
@@ -74,6 +77,11 @@ public class scr_bullet : MonoBehaviour
             Debug.Log(hit.transform.gameObject.name);
             HitSomething(hit.transform.gameObject);
         }
+       /* else if (Physics.Raycast(transform.position, transform.up * -1, out hit, 2) && hit.transform.gameObject.layer == 8)
+        {
+            Debug.Log(hit.transform.gameObject.name);
+            HitSomething(hit.transform.gameObject);
+        }*/
 
 
     }

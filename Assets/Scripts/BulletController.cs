@@ -24,6 +24,7 @@ public class BulletController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Colliding with player");
         Destroy(this.gameObject);
     }
 }
