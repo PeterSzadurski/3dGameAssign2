@@ -131,17 +131,12 @@ public class scr_player : MonoBehaviour
         if (_Hips.localEulerAngles.y > 44 && _Hips.localEulerAngles.y < 152)
         {
             // Right
-
-            Debug.Log("Right");
-
             _Anim.SetFloat("AxisV", horizontal);
             _Anim.SetFloat("AxisH", vertical);
         }
         else if (_Hips.localEulerAngles.y < 323 && _Hips.localEulerAngles.y > 274)
         {
-
             // Left
-            Debug.Log("Left");
             _Anim.SetFloat("AxisV", -horizontal);
             _Anim.SetFloat("AxisH", vertical);
         }

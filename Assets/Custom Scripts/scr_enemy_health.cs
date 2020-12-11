@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class scr_enemy_health : MonoBehaviour
 {
+    public int EnemyId;
+
     [SerializeField]
     private AudioClip[] _Sounds;
 

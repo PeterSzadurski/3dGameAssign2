@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour {
     public float speed = 200f;
-    public int damage = 3;
+    public int damage = 10;
     private GameObject player;
 
 	// Use this for initialization

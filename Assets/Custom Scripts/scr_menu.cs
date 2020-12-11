@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class scr_menu : MonoBehaviour
 {
     [SerializeField]
@@ -13,6 +13,8 @@ public class scr_menu : MonoBehaviour
         {
             _IsPaused = !_IsPaused;
             _Panel.SetActive(_IsPaused);
+            Cursor.visible = _IsPaused;
+
             if (_IsPaused)
             {
                 Time.timeScale = 0;
@@ -23,4 +25,15 @@ public class scr_menu : MonoBehaviour
             }
         }
     }
+
+    public void Reset()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
 }
