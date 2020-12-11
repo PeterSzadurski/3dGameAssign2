@@ -37,12 +37,15 @@ public class AI : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate () {
-        animator.SetBool("IsPlayerVisible", IsPlayerVisible());
-        animator.SetBool("IsPlayerClose", IsPlayerClose());
-        animator.SetBool("IsPlayerDetectable", IsPlayerDetectable());
-        animator.SetBool("IsPlayerAttackable", IsPlayerAttackable());
-        animator.SetBool("IsOnPoint", IsOnPoint());
-        animator.SetBool("IsBulletsEmpty", isEmpty());
+        if (player != null)
+        {
+            animator.SetBool("IsPlayerVisible", IsPlayerVisible());
+            animator.SetBool("IsPlayerClose", IsPlayerClose());
+            animator.SetBool("IsPlayerDetectable", IsPlayerDetectable());
+            animator.SetBool("IsPlayerAttackable", IsPlayerAttackable());
+            animator.SetBool("IsOnPoint", IsOnPoint());
+            animator.SetBool("IsBulletsEmpty", isEmpty());
+        }
     }
 
     public bool IsPlayerDetectable() {

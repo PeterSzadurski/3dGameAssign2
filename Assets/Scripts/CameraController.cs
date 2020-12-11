@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
 
     private GameObject player;
     private Vector3 offset;
@@ -14,18 +15,23 @@ public class CameraController : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-//        transform..LookAt(player.transform.position);
-        Vector3 diff = player.transform.position - transform.position;
-        diff -= offset;
-//        diff.y = 0;
-        Vector3 pos = transform.position;
-        pos += diff / 10f;
-        transform.position = pos;
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        //        transform..LookAt(player.transform.position);
+        if (player != null)
+        {
+            Vector3 diff = player.transform.position - transform.position;
+            diff -= offset;
+            //        diff.y = 0;
+            Vector3 pos = transform.position;
+            pos += diff / 10f;
+            transform.position = pos;
+        }
+    }
 }

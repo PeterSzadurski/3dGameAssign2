@@ -15,8 +15,8 @@ NavMeshProjectSettings:
     cost: 1.5
   - name: Ramp
     cost: 2
-  - name: 
-    cost: 1
+  - name: Thin Walkway
+    cost: 1.5
   - name: 
     cost: 1
   - name: 

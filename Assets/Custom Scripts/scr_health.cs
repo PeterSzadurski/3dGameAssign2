@@ -35,7 +35,7 @@ public class scr_health : MonoBehaviour
     {
         if (damage > _CurrShield)
         {
-            if(_CurrShield != 0)
+            if (_CurrShield != 0)
             {
                 _AS.Stop();
                 _AS.PlayOneShot(_RechargeSound);
@@ -51,7 +51,14 @@ public class scr_health : MonoBehaviour
         _Hud.SetShield(_MaxShield, _CurrShield);
         _Hud.SetHealth(_MaxHealth, _CurrHealth);
         StopCoroutine(ShieldRecharge());
-        StartCoroutine(ShieldRecharge());
+        if (_CurrHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            StartCoroutine(ShieldRecharge());
+        }
     }
 
     private IEnumerator ShieldRecharge()
@@ -80,13 +87,5 @@ public class scr_health : MonoBehaviour
         }
         yield return null;
 
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Damage(50);
-        }
     }
 }
