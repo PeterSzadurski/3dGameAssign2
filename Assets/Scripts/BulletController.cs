@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour {
     public float speed = 200f;
-
+    public int damage = 3;
     private GameObject player;
 
 	// Use this for initialization
@@ -24,7 +24,7 @@ public class BulletController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Colliding with player");
+        Debug.Log("Col: " + collision.transform.name);
         Destroy(this.gameObject);
     }
 }

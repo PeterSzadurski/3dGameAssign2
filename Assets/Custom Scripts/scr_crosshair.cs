@@ -23,7 +23,7 @@ public class scr_crosshair : MonoBehaviour
     {
         transform.localScale = _OriginalScale;
     }
-    void Update()
+    void FixedUpdate()
     {
         gameObject.transform.position = Input.mousePosition;
     }

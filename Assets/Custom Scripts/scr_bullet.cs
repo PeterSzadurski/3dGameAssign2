@@ -21,6 +21,7 @@ public class scr_bullet : MonoBehaviour
 
     void Update()
     {
+
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 
@@ -30,11 +31,7 @@ public class scr_bullet : MonoBehaviour
         GameObject.Destroy(gameObject);
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        //   Debug.Log("Trigger");
-        HitSomething(col.gameObject);
-    }
+
 
     private void HitSomething(GameObject go)
     {
@@ -63,8 +60,6 @@ public class scr_bullet : MonoBehaviour
     void OnCollisionEnter(Collision col)
 
     {
-        // Debug.Log("Not Trigger: " + col.gameObject.name);
-
         HitSomething(col.gameObject);
     }
 
@@ -74,14 +69,12 @@ public class scr_bullet : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2) && hit.transform.gameObject.layer == 8)
         {
-            Debug.Log(hit.transform.gameObject.name);
             HitSomething(hit.transform.gameObject);
         }
-       /* else if (Physics.Raycast(transform.position, transform.up * -1, out hit, 2) && hit.transform.gameObject.layer == 8)
+        else if (Physics.Raycast(transform.position, transform.up * -1, out hit, 0.75f) && hit.transform.gameObject.tag != "bullet")
         {
-            Debug.Log(hit.transform.gameObject.name);
             HitSomething(hit.transform.gameObject);
-        }*/
+        }
 
 
     }

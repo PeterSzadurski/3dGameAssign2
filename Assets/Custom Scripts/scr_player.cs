@@ -92,6 +92,12 @@ public class scr_player : MonoBehaviour
 
     bool _CanDash = true;
 
+    private Vector3 _LastGrounded;
+
+    scr_health _Health;
+
+    bool _PositionResetting = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -110,6 +116,7 @@ public class scr_player : MonoBehaviour
         _AmmoText.text = _Ammo.GetAmmoInClip() + "/" + _Ammo.GetCurrentAmmoToString();
         _AimPlane = new Plane(Vector3.up, Vector3.zero);
         _Dashbar = GameObject.FindGameObjectWithTag("Dashbar").GetComponent<scr_dashbar>();
+        _Health = GetComponent<scr_health>();
     }
 
     // Update is called once per frame
@@ -171,9 +178,13 @@ public class scr_player : MonoBehaviour
         }
         #endregion
 
+        if (_CC.isGrounded)
+        {
+            _PositionResetting = false;
+            _LastGrounded = transform.position;
+        }
 
-
-        if (Input.GetButtonDown("Fire1") && !_ShotFiring && !_Ammo.GetIsReloading())
+        if (Input.GetButtonDown("Fire1") && !_ShotFiring && !_Ammo.GetIsReloading() && Time.timeScale != 0)
         {
             if (_Ammo.GetAmmoInClip() > 0)
             {
@@ -197,7 +208,7 @@ public class scr_player : MonoBehaviour
             }
         }
 
-        if (Input.GetButton("Reload"))
+        if (Input.GetButton("Reload") && Time.timeScale != 0)
         {
             _AS.pitch = 1;
             if (_AS.isPlaying == _Sounds[1])
@@ -209,7 +220,7 @@ public class scr_player : MonoBehaviour
             _Reload.StartReload(_ReloadTime, _Ammo);
         }
 
-        if (Input.GetButtonDown("Dash"))
+        if (Input.GetButtonDown("Dash") && Time.timeScale != 0)
         {
             if (_CanDash)
             {
@@ -231,6 +242,20 @@ public class scr_player : MonoBehaviour
 
         yield return null;
     }
+
+    public void ResetPosition()
+    {
+        if (!_PositionResetting)
+        {
+            _PositionResetting = true;
+
+
+            _Health.Damage(25);
+            transform.position = _LastGrounded;
+
+        }
+    }
+
     private IEnumerator FireShot()
     {
         _Crosshair.IncreaseSize();
@@ -296,7 +321,7 @@ public class scr_player : MonoBehaviour
         RaycastHit mouseHit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out mouseHit) && mouseHit.transform.gameObject.layer == 8)
         {
-          //  Debug.Log("Hit: " + mouseHit.transform.gameObject.name);
+            //  Debug.Log("Hit: " + mouseHit.transform.gameObject.name);
             _Hips.LookAt(new Vector3(mouseHit.transform.position.x, _AimHeight.position.y, mouseHit.transform.position.y));
             _Spine.LookAt(new Vector3(mouseHit.transform.position.x, _AimHeight.position.y, mouseHit.transform.position.y));
             Offsets();
@@ -316,7 +341,7 @@ public class scr_player : MonoBehaviour
                 Offsets();
             }
         }
-        
+
 
     }
 
@@ -353,6 +378,25 @@ public class scr_player : MonoBehaviour
 
         }
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+
+        if (col.gameObject.tag == "DeathFloor")
+        {
+            Debug.Log("Floor");
+            ResetPosition();
+        }
+        else if (col.gameObject.tag == "EnemyBullet")
+        {
+            int dam = col.gameObject.GetComponent<BulletController>().damage;
+            Destroy(col.gameObject);
+            _Health.Damage(dam);
+
+        }
+
+    }
+
 
     void OnDrawGizmos()
     {

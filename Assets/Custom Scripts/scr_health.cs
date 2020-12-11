@@ -17,18 +17,29 @@ public class scr_health : MonoBehaviour
 
     [SerializeField]
     private float _ShieldRechargeDelay;
+
+    private AudioSource _AS;
+
+    [SerializeField]
+    private AudioClip _RechargeSound;
     void Awake()
     {
         _CurrHealth = _MaxHealth;
         _CurrShield = _MaxShield;
 
         _Hud.Setup(_MaxHealth, _MaxShield);
+        _AS = GetComponent<AudioSource>();
     }
 
     public void Damage(int damage)
     {
         if (damage > _CurrShield)
         {
+            if(_CurrShield != 0)
+            {
+                _AS.Stop();
+                _AS.PlayOneShot(_RechargeSound);
+            }
             damage -= _CurrShield;
             _CurrHealth -= damage;
             _CurrShield = 0;

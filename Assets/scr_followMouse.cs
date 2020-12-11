@@ -8,7 +8,6 @@ public class scr_followMouse : MonoBehaviour
     void Update()
     {
         Vector3 mousePos = Input.mousePosition;
-        //mousePos.y = -mousePos.y;
         mousePos.z = Mathf.Abs(Camera.main.transform.position.y - transform.position.y);
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
         transform.position = mousePos;
